@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TopWidget extends StatefulWidget {
   final String title;
   final void Function()? onTap;
+  final IconData? leading;
+  final IconData? iconRight;
   const TopWidget({
     super.key,
     required this.title,
     this.onTap,
+    this.leading,
+    this.iconRight,
   });
 
   @override
@@ -23,6 +28,13 @@ class _TopWidgetState extends State<TopWidget> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         children: [
+          Visibility(
+            visible: widget.leading != null,
+            child: Icon(
+              widget.leading,
+              size: 40,
+            ),
+          ),
           Text(
             widget.title,
             style: TextStyle(
@@ -31,8 +43,8 @@ class _TopWidgetState extends State<TopWidget> {
               fontSize: 26,
             ),
           ),
-          const Icon(
-            Icons.arrow_drop_down,
+          Icon(
+            widget.iconRight,
             size: 40,
           ),
         ],
