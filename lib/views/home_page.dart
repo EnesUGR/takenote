@@ -5,6 +5,7 @@ import 'package:takenote/components/searchbox.dart';
 import 'package:takenote/components/topwidget.dart';
 import 'package:takenote/constants/style.dart';
 import 'package:takenote/utils/extensions.dart';
+import 'package:takenote/views/createnote_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -27,7 +28,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: AppColors.light,
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          context.goPage(const CreateNotePage());
+        },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.light,
         child: const Icon(Icons.note_add),
