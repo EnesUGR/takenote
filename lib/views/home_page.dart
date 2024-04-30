@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   List<NoteModel> _notes = [];
+  List<NoteModel> _pinnedNotes = [];
 
   @override
   void initState() {
@@ -29,9 +30,13 @@ class _HomePageState extends State<HomePage> {
 
   void _loadNotes() async {
     var notes = await NoteManagerSPref.getNotes();
-    setState(() {
-      _notes = notes;
-    });
+    setState(
+      () {
+        debugPrint("_loadNotes");
+        _notes = notes;
+        _pinnedNotes = notes.where((element) => element.pinned).toList();
+      },
+    );
   }
 
   @override
@@ -46,12 +51,9 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.light,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.goPage(
-            const CreateNotePage(),
-            onValue: (p0) {
-              _loadNotes();
-            },
-          );
+          context.goPage(const CreateNotePage(), onValue: (_) {
+            _loadNotes();
+          });
         },
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.light,
@@ -80,11 +82,20 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                //TODO: tek bir note widgetı olmalı bu liste değil
-                const PinnedNote(),
+                SizedBox(
+                  height: 160,
+                  width: context.width,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _pinnedNotes.length,
+                    itemBuilder: (context, index) {
+                      return PinnedNoteWidget(noteModel: _pinnedNotes[index]);
+                    },
+                  ),
+                ),
                 const SizedBox(height: 20),
                 Text(
-                  "Others",
+                  "Others (${_notes.length})",
                   style: TextStyle(
                     fontFamily: GoogleFonts.manrope().fontFamily,
                     fontWeight: FontWeight.bold,
@@ -93,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                notesWidgets(context),
+                allNotesWidgets(context),
               ],
             ),
           ),
@@ -102,7 +113,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Expanded notesWidgets(BuildContext context) {
+  Expanded allNotesWidgets(BuildContext context) {
     return Expanded(
       child: SizedBox(
         width: context.width,
