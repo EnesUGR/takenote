@@ -1,4 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:takenote/components/note_widget.dart';
 import 'package:takenote/components/pinned_note.dart';
@@ -82,15 +85,18 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                SizedBox(
-                  height: 160,
-                  width: context.width,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: _pinnedNotes.length,
-                    itemBuilder: (context, index) {
-                      return PinnedNoteWidget(noteModel: _pinnedNotes[index]);
-                    },
+                Visibility(
+                  visible: _pinnedNotes.isNotEmpty,
+                  child: SizedBox(
+                    height: 160,
+                    width: context.width,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: _pinnedNotes.length,
+                      itemBuilder: (context, index) {
+                        return PinnedNoteWidget(noteModel: _pinnedNotes[index]);
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -121,7 +127,9 @@ class _HomePageState extends State<HomePage> {
           physics: const BouncingScrollPhysics(),
           shrinkWrap: true,
           itemCount: _notes.length,
-          itemBuilder: (context, index) => NoteWidget(note: _notes[index]),
+          itemBuilder: (context, index) {
+            return NoteWidget(note: _notes[index]);
+          },
         ),
       ),
     );
