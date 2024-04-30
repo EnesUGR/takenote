@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:takenote/components/topwidget.dart';
 import 'package:takenote/constants/style.dart';
+import 'package:takenote/models/note_model.dart';
 import 'package:takenote/utils/extensions.dart';
 
 class CreateNotePage extends StatefulWidget {
@@ -12,6 +13,17 @@ class CreateNotePage extends StatefulWidget {
 }
 
 class _CreateNotePageState extends State<CreateNotePage> {
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
+  bool _isCompleted = false;
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _noteController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +44,17 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 ),
                 const SizedBox(height: 30),
                 TextField(
+                  controller: _titleController,
+                  onChanged: (value) {
+                    setState(() {
+                      if (_titleController.text.isNotEmpty &&
+                          _noteController.text.isNotEmpty) {
+                        _isCompleted = true;
+                      } else {
+                        _isCompleted = false;
+                      }
+                    });
+                  },
                   style: TextStyle(
                     color: AppColors.heading,
                     fontFamily: GoogleFonts.manrope().fontFamily,
@@ -44,7 +67,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Text(
-                    '14/10/24',
+                    DateTime.timestamp().fullDate,
                     style: TextStyle(
                       color: AppColors.body.withOpacity(.7),
                       fontFamily: GoogleFonts.manrope().fontFamily,
@@ -57,6 +80,17 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 SizedBox(
                   height: context.height * .6,
                   child: TextField(
+                    controller: _noteController,
+                    onChanged: (value) {
+                      setState(() {
+                        if (_titleController.text.isNotEmpty &&
+                            _noteController.text.isNotEmpty) {
+                          _isCompleted = true;
+                        } else {
+                          _isCompleted = false;
+                        }
+                      });
+                    },
                     maxLines: null,
                     expands: true,
                     keyboardType: TextInputType.multiline,
@@ -69,30 +103,43 @@ class _CreateNotePageState extends State<CreateNotePage> {
                     decoration: hintDec("Write something..."),
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        shape: const RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(6)),
+                AbsorbPointer(
+                  absorbing: !_isCompleted,
+                  child: Opacity(
+                    opacity: !_isCompleted ? .5 : 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            NoteModel noteObject = NoteModel(
+                              title: _titleController.text,
+                              note: _noteController.text,
+                              dateStamp: DateTime.timestamp().toString(),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                            ),
+                            backgroundColor: AppColors.primary,
+                            foregroundColor: AppColors.light,
+                            padding: const EdgeInsets.all(18),
+                          ),
+                          child: Text(
+                            'Save Note',
+                            style: TextStyle(
+                              color: AppColors.light,
+                              fontFamily: GoogleFonts.manrope().fontFamily,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ),
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: AppColors.light,
-                        padding: const EdgeInsets.all(18),
-                      ),
-                      child: Text(
-                        'Save Note',
-                        style: TextStyle(
-                          color: AppColors.light,
-                          fontFamily: GoogleFonts.manrope().fontFamily,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      ],
                     ),
-                  ],
+                  ),
                 )
               ],
             ),

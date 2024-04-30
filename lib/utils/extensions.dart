@@ -34,3 +34,10 @@ extension Navegate on BuildContext {
     Navigator.pop(this);
   }
 }
+
+extension DateFormatter on DateTime {
+  /// Returns the formatted date in the format `dd/mm/yyyy`
+  String get fullDate {
+    return "$day/$month/$year";
+  }
+}
