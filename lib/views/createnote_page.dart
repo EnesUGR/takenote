@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:takenote/components/topwidget.dart';
 import 'package:takenote/constants/style.dart';
 import 'package:takenote/models/note_model.dart';
+import 'package:takenote/services/spref_manager.dart';
 import 'package:takenote/utils/extensions.dart';
 
 class CreateNotePage extends StatefulWidget {
@@ -117,6 +118,8 @@ class _CreateNotePageState extends State<CreateNotePage> {
                               note: _noteController.text,
                               dateStamp: DateTime.timestamp().toString(),
                             );
+                            NoteManagerSPref.addNote(noteObject)
+                                .whenComplete(() => context.back());
                           },
                           style: ElevatedButton.styleFrom(
                             shape: const RoundedRectangleBorder(

@@ -6,7 +6,7 @@ import 'package:takenote/models/note_model.dart';
 class NoteManagerSPref {
   static const String _key = "takenotes_notes";
 
-  Future<void> addNote(NoteModel note) async {
+  static Future<void> addNote(NoteModel note) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> notes = prefs.getStringList(_key) ?? [];
 
@@ -15,14 +15,16 @@ class NoteManagerSPref {
     await prefs.setStringList(_key, notes);
   }
 
-  Future<List<NoteModel>> getNotes() async {
+  static Future<List<NoteModel>> getNotes() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> notes = prefs.getStringList(_key) ?? [];
 
-    return notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
+    List<NoteModel> list =
+        notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
+    return list;
   }
 
-  Future<void> removeNote(NoteModel note) async {
+  static Future<void> removeNote(NoteModel note) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> notes = prefs.getStringList(_key) ?? [];
 
@@ -31,7 +33,7 @@ class NoteManagerSPref {
     await prefs.setStringList(_key, notes);
   }
 
-  Future<void> deleteAllNotes(bool permission) async {
+  static Future<void> deleteAllNotes({bool permission = false}) async {
     if (permission) {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       await prefs.remove(_key);
