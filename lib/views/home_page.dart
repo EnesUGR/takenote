@@ -37,10 +37,25 @@ class _HomePageState extends State<HomePage> {
         _pinnedNotes = notes.where((element) => element.pinned).toList();
       },
     );
-    //TODO: remove this line
-    _notes.forEach((element) {
-      debugPrint("${element.title}:${element.pinned}");
-    });
+    for (var e in _notes) {
+      debugPrint("${e.title}:${e.pinned}");
+    }
+  }
+
+  /// Pin or update note. If [isUpdate] is false, only change pinned state.
+  void _pinOrUpdate(bool isUpdate, NoteModel oldNote) {
+    if (isUpdate) {
+    } else {
+      NoteModel newNote = NoteModel(
+        title: oldNote.title,
+        note: oldNote.note,
+        dateStamp: oldNote.dateStamp,
+        pinned: !oldNote.pinned,
+      );
+      NoteManagerSPref.updateNote(oldNote, newNote);
+    }
+
+    _loadNotes();
   }
 
   @override
@@ -95,7 +110,11 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       itemCount: _pinnedNotes.length,
                       itemBuilder: (context, index) {
-                        return PinnedNoteWidget(noteModel: _pinnedNotes[index]);
+                        return PinnedNoteWidget(
+                            removePinned: (_) {
+                              _pinOrUpdate(false, _pinnedNotes[index]);
+                            },
+                            noteModel: _pinnedNotes[index]);
                       },
                     ),
                   ),
@@ -131,20 +150,12 @@ class _HomePageState extends State<HomePage> {
           itemBuilder: (context, index) {
             return NoteWidget(
               note: _notes[index],
-              onRemove: (ctx) {
+              onRemove: (_) {
                 NoteManagerSPref.removeNote(_notes[index]);
                 _loadNotes();
               },
-              onPinned: (ctx) {
-                var n = _notes[index];
-                NoteModel newNote = NoteModel(
-                  title: n.title,
-                  note: n.note,
-                  dateStamp: n.dateStamp,
-                  pinned: !n.pinned,
-                );
-                NoteManagerSPref.updateNote(n, newNote);
-                _loadNotes();
+              onPinned: (_) {
+                _pinOrUpdate(false, _notes[index]);
               },
             );
           },
