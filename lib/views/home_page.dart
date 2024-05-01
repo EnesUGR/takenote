@@ -111,11 +111,19 @@ class _HomePageState extends State<HomePage> {
                       scrollDirection: Axis.horizontal,
                       itemCount: _pinnedNotes.length,
                       itemBuilder: (context, index) {
-                        return PinnedNoteWidget(
-                            removePinned: (_) {
-                              _pinOrUpdate(false, _pinnedNotes[index]);
-                            },
-                            noteModel: _pinnedNotes[index]);
+                        return GestureDetector(
+                          onTap: () {
+                            context.goPage(UpdatePage(note: _notes[index]),
+                                onAfter: (_) {
+                              _loadNotes();
+                            });
+                          },
+                          child: PinnedNoteWidget(
+                              removePinned: (_) {
+                                _pinOrUpdate(false, _pinnedNotes[index]);
+                              },
+                              noteModel: _pinnedNotes[index]),
+                        );
                       },
                     ),
                   ),
