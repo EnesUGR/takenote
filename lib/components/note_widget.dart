@@ -8,10 +8,12 @@ import 'package:takenote/utils/extensions.dart';
 class NoteWidget extends StatefulWidget {
   final NoteModel note;
   final void Function(BuildContext) onRemove;
+  final void Function(BuildContext) onPinned;
   const NoteWidget({
     super.key,
     required this.note,
     required this.onRemove,
+    required this.onPinned,
   });
 
   @override
@@ -26,6 +28,18 @@ class _NoteWidgetState extends State<NoteWidget> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: Slidable(
+          startActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            children: [
+              SlidableAction(
+                flex: 1,
+                onPressed: widget.onPinned,
+                backgroundColor: Colors.yellowAccent.shade700,
+                foregroundColor: AppColors.light,
+                icon: Icons.star_rounded,
+              ),
+            ],
+          ),
           endActionPane: ActionPane(
             motion: const ScrollMotion(),
             children: [

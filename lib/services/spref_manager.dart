@@ -24,6 +24,18 @@ class NoteManagerSPref {
     return list;
   }
 
+  static Future<void> updateNote(NoteModel old, NoteModel newNote) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> notes = prefs.getStringList(_key) ?? [];
+
+    final index =
+        notes.indexWhere((nJson) => nJson == jsonEncode(old.toJson()));
+
+    if (index != -1) notes[index] = jsonEncode(newNote.toJson());
+
+    await prefs.setStringList(_key, notes);
+  }
+
   static Future<void> removeNote(NoteModel note) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> notes = prefs.getStringList(_key) ?? [];

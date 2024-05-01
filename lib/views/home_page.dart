@@ -37,6 +37,10 @@ class _HomePageState extends State<HomePage> {
         _pinnedNotes = notes.where((element) => element.pinned).toList();
       },
     );
+    //TODO: remove this line
+    _notes.forEach((element) {
+      debugPrint("${element.title}:${element.pinned}");
+    });
   }
 
   @override
@@ -129,6 +133,17 @@ class _HomePageState extends State<HomePage> {
               note: _notes[index],
               onRemove: (ctx) {
                 NoteManagerSPref.removeNote(_notes[index]);
+                _loadNotes();
+              },
+              onPinned: (ctx) {
+                var n = _notes[index];
+                NoteModel newNote = NoteModel(
+                  title: n.title,
+                  note: n.note,
+                  dateStamp: n.dateStamp,
+                  pinned: !n.pinned,
+                );
+                NoteManagerSPref.updateNote(n, newNote);
                 _loadNotes();
               },
             );
