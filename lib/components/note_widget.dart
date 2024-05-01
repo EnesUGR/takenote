@@ -3,14 +3,15 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:takenote/constants/style.dart';
 import 'package:takenote/models/note_model.dart';
-import 'package:takenote/services/spref_manager.dart';
 import 'package:takenote/utils/extensions.dart';
 
 class NoteWidget extends StatefulWidget {
   final NoteModel note;
+  final void Function(BuildContext) onRemove;
   const NoteWidget({
     super.key,
     required this.note,
+    required this.onRemove,
   });
 
   @override
@@ -30,12 +31,7 @@ class _NoteWidgetState extends State<NoteWidget> {
             children: [
               SlidableAction(
                 flex: 1,
-                onPressed: (context) {
-                  setState(() {
-                    NoteManagerSPref.removeNote(widget.note);
-                    //FIXME: page not refreshing
-                  });
-                },
+                onPressed: widget.onRemove,
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.light,
                 icon: Icons.delete_sweep_rounded,

@@ -10,12 +10,11 @@ class SearchBox extends StatelessWidget {
 
   final TextEditingController _searchController;
 
-  
-
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: _searchController,
+      onTapOutside: (event) => FocusScope.of(context).unfocus(),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
         hintText: "Search notes",
