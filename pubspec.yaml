@@ -41,14 +41,12 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-flutter_native_splash:
-  android: true
-  ios: false
-  web: false
 
+flutter_native_splash:
   color: "#fce5c3"
   image: assets/icons/logo.png
-
-  android_12:
-    color: "#fce5c3"
+  android_gravity: fill
+  android_12: 
     image: assets/icons/logo.png
+  android: true
+  ios: true
