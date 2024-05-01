@@ -38,13 +38,6 @@ class _NoteWidgetState extends State<NoteWidget> {
                 foregroundColor: AppColors.light,
                 icon: Icons.star_rounded,
               ),
-              SlidableAction(
-                flex: 1,
-                onPressed: null,
-                backgroundColor: Colors.greenAccent.shade700,
-                foregroundColor: AppColors.light,
-                icon: Icons.edit_rounded,
-              ),
             ],
           ),
           endActionPane: ActionPane(

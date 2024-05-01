@@ -9,6 +9,7 @@ import 'package:takenote/models/note_model.dart';
 import 'package:takenote/services/spref_manager.dart';
 import 'package:takenote/utils/extensions.dart';
 import 'package:takenote/views/createnote_page.dart';
+import 'package:takenote/views/update_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: AppColors.light,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          context.goPage(const CreateNotePage(), onValue: (_) {
+          context.goPage(const CreateNotePage(), onAfter: (_) {
             _loadNotes();
           });
         },
@@ -130,35 +131,39 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                allNotesWidgets(context),
+                Expanded(
+                  child: SizedBox(
+                    width: context.width,
+                    child: ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _notes.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            context.goPage(UpdatePage(note: _notes[index]),
+                                onAfter: (_) {
+                              _loadNotes();
+                            });
+                          },
+                          child: NoteWidget(
+                            note: _notes[index],
+                            onRemove: (_) {
+                              NoteManagerSPref.removeNote(_notes[index]);
+                              _loadNotes();
+                            },
+                            onPinned: (_) {
+                              _pinOrUpdate(false, _notes[index]);
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Expanded allNotesWidgets(BuildContext context) {
-    return Expanded(
-      child: SizedBox(
-        width: context.width,
-        child: ListView.builder(
-          physics: const BouncingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: _notes.length,
-          itemBuilder: (context, index) {
-            return NoteWidget(
-              note: _notes[index],
-              onRemove: (_) {
-                NoteManagerSPref.removeNote(_notes[index]);
-                _loadNotes();
-              },
-              onPinned: (_) {
-                _pinOrUpdate(false, _notes[index]);
-              },
-            );
-          },
         ),
       ),
     );

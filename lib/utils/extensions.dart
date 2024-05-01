@@ -21,7 +21,7 @@ extension DeviceInfo on BuildContext {
 }
 
 extension Navegate on BuildContext {
-  void goPage(Widget widget, {Function(dynamic)? onValue}) {
+  void goPage(Widget widget, {Function(dynamic)? onAfter}) {
     Navigator.of(this, rootNavigator: true)
         .push(
           PageRouteBuilder(
@@ -45,7 +45,7 @@ extension Navegate on BuildContext {
             },
           ),
         )
-        .then(onValue ?? (_) {});
+        .then(onAfter ?? (_) {});
   }
 
   void back() {

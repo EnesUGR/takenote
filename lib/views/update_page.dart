@@ -6,17 +6,27 @@ import 'package:takenote/models/note_model.dart';
 import 'package:takenote/services/spref_manager.dart';
 import 'package:takenote/utils/extensions.dart';
 
-class CreateNotePage extends StatefulWidget {
-  const CreateNotePage({super.key});
+class UpdatePage extends StatefulWidget {
+  final NoteModel note;
+  const UpdatePage({
+    super.key,
+    required this.note,
+  });
 
   @override
-  State<CreateNotePage> createState() => _CreateNotePageState();
+  State<UpdatePage> createState() => _UpdatePageState();
 }
 
-class _CreateNotePageState extends State<CreateNotePage> {
+class _UpdatePageState extends State<UpdatePage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
-  bool _isCompleted = false;
+
+  @override
+  void initState() {
+    _titleController.text = widget.note.title;
+    _noteController.text = widget.note.note;
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -37,7 +47,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TopWidget(
-                  title: "Create Note",
+                  title: "Update Note",
                   leading: Icons.arrow_back_ios_new,
                   onTap: () {
                     context.back();
@@ -46,16 +56,6 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 const SizedBox(height: 30),
                 TextField(
                   controller: _titleController,
-                  onChanged: (value) {
-                    setState(() {
-                      if (_titleController.text.isNotEmpty &&
-                          _noteController.text.isNotEmpty) {
-                        _isCompleted = true;
-                      } else {
-                        _isCompleted = false;
-                      }
-                    });
-                  },
                   style: TextStyle(
                     color: AppColors.heading,
                     fontFamily: GoogleFonts.manrope().fontFamily,
@@ -68,7 +68,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
                   child: Text(
-                    DateTime.timestamp().fullDate,
+                    widget.note.dateStamp.fullDate,
                     style: TextStyle(
                       color: AppColors.body.withOpacity(.7),
                       fontFamily: GoogleFonts.manrope().fontFamily,
@@ -82,16 +82,6 @@ class _CreateNotePageState extends State<CreateNotePage> {
                   height: context.height * .6,
                   child: TextField(
                     controller: _noteController,
-                    onChanged: (value) {
-                      setState(() {
-                        if (_titleController.text.isNotEmpty &&
-                            _noteController.text.isNotEmpty) {
-                          _isCompleted = true;
-                        } else {
-                          _isCompleted = false;
-                        }
-                      });
-                    },
                     maxLines: null,
                     expands: true,
                     keyboardType: TextInputType.multiline,
@@ -104,45 +94,39 @@ class _CreateNotePageState extends State<CreateNotePage> {
                     decoration: hintDec("Write something..."),
                   ),
                 ),
-                AbsorbPointer(
-                  absorbing: !_isCompleted,
-                  child: Opacity(
-                    opacity: !_isCompleted ? .5 : 1,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            NoteModel noteObject = NoteModel(
-                              title: _titleController.text,
-                              note: _noteController.text,
-                              dateStamp: DateTime.timestamp().toString(),
-                            );
-                            NoteManagerSPref.addNote(noteObject)
-                                .whenComplete(() => context.back());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6)),
-                            ),
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: AppColors.light,
-                            padding: const EdgeInsets.all(18),
-                          ),
-                          child: Text(
-                            'Save Note',
-                            style: TextStyle(
-                              color: AppColors.light,
-                              fontFamily: GoogleFonts.manrope().fontFamily,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        NoteModel noteObject = NoteModel(
+                          title: _titleController.text,
+                          note: _noteController.text,
+                          dateStamp: widget.note.dateStamp,
+                          pinned: widget.note.pinned,
+                        );
+                        NoteManagerSPref.updateNote(widget.note, noteObject)
+                            .whenComplete(() => context.back());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(6)),
                         ),
-                      ],
+                        backgroundColor: AppColors.primary,
+                        foregroundColor: AppColors.light,
+                        padding: const EdgeInsets.all(18),
+                      ),
+                      child: Text(
+                        'Save Note',
+                        style: TextStyle(
+                          color: AppColors.light,
+                          fontFamily: GoogleFonts.manrope().fontFamily,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 )
               ],
             ),
