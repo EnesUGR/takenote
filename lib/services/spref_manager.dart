@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:takenote/models/note_model.dart';
 
@@ -15,15 +16,6 @@ class NoteManagerSPref {
     await prefs.setStringList(_key, notes);
   }
 
-  static Future<List<NoteModel>> getNotes() async {
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final List<String> notes = prefs.getStringList(_key) ?? [];
-
-    List<NoteModel> list =
-        notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
-    return list;
-  }
-
   static Future<void> updateNote(NoteModel old, NoteModel newNote) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final List<String> notes = prefs.getStringList(_key) ?? [];
@@ -34,6 +26,35 @@ class NoteManagerSPref {
     if (index != -1) notes[index] = jsonEncode(newNote.toJson());
 
     await prefs.setStringList(_key, notes);
+  }
+
+  static Future<List<NoteModel>> getNotes() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> notes = prefs.getStringList(_key) ?? [];
+
+    List<NoteModel> list =
+        notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
+    return list;
+  }
+
+  static Future<List<NoteModel>> searchNote(String query) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final List<String> notes = prefs.getStringList(_key) ?? [];
+
+    List<NoteModel> list =
+        notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
+
+    List<NoteModel> searchResult = list;
+
+    if (query.isNotEmpty) {
+      searchResult = list
+          .where((note) =>
+              note.title.toLowerCase().contains(query.toLowerCase()) ||
+              note.note.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    debugPrint("Search result: $searchResult");
+    return searchResult;
   }
 
   static Future<void> removeNote(NoteModel note) async {

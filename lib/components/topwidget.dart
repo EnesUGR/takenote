@@ -31,7 +31,7 @@ class _TopWidgetState extends State<TopWidget> {
             visible: widget.leading != null,
             child: Icon(
               widget.leading,
-              size: 40,
+              size: 30,
             ),
           ),
           Text(
@@ -42,9 +42,12 @@ class _TopWidgetState extends State<TopWidget> {
               fontSize: 26,
             ),
           ),
-          Icon(
-            widget.iconRight,
-            size: 40,
+          Padding(
+            padding: const EdgeInsets.only(left: 8, top: 3),
+            child: Icon(
+              widget.iconRight,
+              size: 25,
+            ),
           ),
         ],
       ),

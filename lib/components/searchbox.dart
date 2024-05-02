@@ -5,15 +5,18 @@ import 'package:takenote/constants/style.dart';
 class SearchBox extends StatelessWidget {
   const SearchBox({
     super.key,
-    required TextEditingController searchController,
-  }) : _searchController = searchController;
+    required TextEditingController cntrl,
+    this.onSubmitted,
+  }) : _searchController = cntrl;
 
   final TextEditingController _searchController;
+  final void Function(String)? onSubmitted;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: _searchController,
+      onSubmitted: onSubmitted,
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(

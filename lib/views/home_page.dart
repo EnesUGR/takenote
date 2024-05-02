@@ -29,24 +29,27 @@ class _HomePageState extends State<HomePage> {
     _loadNotes();
   }
 
-  void _loadNotes() async {
-    var notes = await NoteManagerSPref.getNotes();
+  void _loadNotes({bool isSearch = false}) async {
+    List<NoteModel> notes;
+    if (isSearch) {
+      notes = await NoteManagerSPref.searchNote(_searchController.text);
+    } else {
+      notes = await NoteManagerSPref.getNotes();
+    }
     setState(
       () {
-        debugPrint("_loadNotes");
         _notes = notes;
         _pinnedNotes = notes.where((element) => element.pinned).toList();
       },
     );
     for (var e in _notes) {
-      debugPrint("${e.title}:${e.pinned}");
+      debugPrint("_loadNotes ==> ${e.title}:${e.pinned}");
     }
   }
 
   /// Pin or update note. If [isUpdate] is false, only change pinned state.
   void _pinOrUpdate(bool isUpdate, NoteModel oldNote) {
-    if (isUpdate) {
-    } else {
+    if (!isUpdate) {
       NoteModel newNote = NoteModel(
         title: oldNote.title,
         note: oldNote.note,
@@ -79,97 +82,110 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: AppColors.light,
         child: const Icon(Icons.note_add),
       ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
-          child: SizedBox(
-            height: context.height,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TopWidget(
-                    title: "All Notes", iconRight: Icons.arrow_drop_down),
-                const SizedBox(height: 20),
-                SearchBox(searchController: _searchController),
-                const SizedBox(height: 20),
-                Text(
-                  "Pinned",
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.manrope().fontFamily,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: AppColors.body,
+      body: RefreshIndicator(
+        onRefresh: () {
+          return Future.delayed(const Duration(milliseconds: 100), () {
+            _loadNotes();
+            _searchController.clear();
+          });
+        },
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 40),
+            child: SizedBox(
+              height: context.height,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TopWidget(
+                    title: "All Notes",
                   ),
-                ),
-                const SizedBox(height: 10),
-                Visibility(
-                  visible: _pinnedNotes.isNotEmpty,
-                  child: SizedBox(
-                    height: 160,
-                    width: context.width,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: _pinnedNotes.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            context.goPage(UpdatePage(note: _notes[index]),
-                                onAfter: (_) {
-                              _loadNotes();
-                            });
-                          },
-                          child: PinnedNoteWidget(
-                              removePinned: (_) {
-                                _pinOrUpdate(false, _pinnedNotes[index]);
+                  const SizedBox(height: 20),
+                  SearchBox(
+                    cntrl: _searchController,
+                    onSubmitted: (query) => _loadNotes(isSearch: true),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Pinned",
+                    style: TextStyle(
+                      fontFamily: GoogleFonts.manrope().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: AppColors.body,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Visibility(
+                    visible: _pinnedNotes.isNotEmpty,
+                    child: SizedBox(
+                      height: 160,
+                      width: context.width,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        itemCount: _pinnedNotes.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              context.goPage(UpdatePage(note: _notes[index]),
+                                  onAfter: (_) {
+                                _loadNotes();
+                              });
+                            },
+                            child: PinnedNoteWidget(
+                                removePinned: (_) {
+                                  _pinOrUpdate(false, _pinnedNotes[index]);
+                                },
+                                noteModel: _pinnedNotes[index]),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    "Others (${_notes.length})",
+                    style: TextStyle(
+                      fontFamily: GoogleFonts.manrope().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                      color: AppColors.body,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Expanded(
+                    child: SizedBox(
+                      width: context.width,
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: _notes.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              context.goPage(UpdatePage(note: _notes[index]),
+                                  onAfter: (_) {
+                                _loadNotes();
+                              });
+                            },
+                            child: NoteWidget(
+                              note: _notes[index],
+                              onRemove: (_) {
+                                NoteManagerSPref.removeNote(_notes[index]);
+                                _loadNotes();
                               },
-                              noteModel: _pinnedNotes[index]),
-                        );
-                      },
+                              onPinned: (_) {
+                                _pinOrUpdate(false, _notes[index]);
+                              },
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  "Others (${_notes.length})",
-                  style: TextStyle(
-                    fontFamily: GoogleFonts.manrope().fontFamily,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
-                    color: AppColors.body,
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Expanded(
-                  child: SizedBox(
-                    width: context.width,
-                    child: ListView.builder(
-                      physics: const BouncingScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: _notes.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            context.goPage(UpdatePage(note: _notes[index]),
-                                onAfter: (_) {
-                              _loadNotes();
-                            });
-                          },
-                          child: NoteWidget(
-                            note: _notes[index],
-                            onRemove: (_) {
-                              NoteManagerSPref.removeNote(_notes[index]);
-                              _loadNotes();
-                            },
-                            onPinned: (_) {
-                              _pinOrUpdate(false, _notes[index]);
-                            },
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
