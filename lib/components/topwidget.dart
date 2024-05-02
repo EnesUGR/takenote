@@ -5,13 +5,17 @@ class TopWidget extends StatefulWidget {
   final String title;
   final void Function()? onTap;
   final IconData? leading;
-  final IconData? iconRight;
+  final bool isHome;
+  // final IconData? iconRight;
+  final void Function()? settingsOnPressed;
   const TopWidget({
     super.key,
     required this.title,
     this.onTap,
     this.leading,
-    this.iconRight,
+    this.isHome = false,
+    this.settingsOnPressed,
+    // this.iconRight,
   });
 
   @override
@@ -21,36 +25,38 @@ class TopWidget extends StatefulWidget {
 class _TopWidgetState extends State<TopWidget> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: widget.onTap,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Visibility(
-            visible: widget.leading != null,
-            child: Icon(
-              widget.leading,
-              size: 30,
-            ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Visibility(
+          visible: widget.leading != null,
+          child:
+              IconButton(onPressed: widget.onTap, icon: Icon(widget.leading)),
+        ),
+        Text(
+          widget.title,
+          style: TextStyle(
+            fontFamily: GoogleFonts.manrope().fontFamily,
+            fontWeight: FontWeight.bold,
+            fontSize: 26,
           ),
-          Text(
-            widget.title,
-            style: TextStyle(
-              fontFamily: GoogleFonts.manrope().fontFamily,
-              fontWeight: FontWeight.bold,
-              fontSize: 26,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 8, top: 3),
-            child: Icon(
-              widget.iconRight,
-              size: 25,
-            ),
-          ),
-        ],
-      ),
+        ),
+        // Padding(
+        //   padding: const EdgeInsets.only(left: 8, top: 3),
+        //   child: Icon(
+        //     widget.iconRight,
+        //     size: 25,
+        //   ),
+        // ),
+        const Spacer(),
+        Visibility(
+          visible: widget.isHome,
+          child: IconButton(
+              onPressed: widget.settingsOnPressed,
+              icon: const Icon(Icons.settings_rounded)),
+        ),
+      ],
     );
   }
 }

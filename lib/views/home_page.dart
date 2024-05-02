@@ -9,6 +9,7 @@ import 'package:takenote/models/note_model.dart';
 import 'package:takenote/services/spref_manager.dart';
 import 'package:takenote/utils/extensions.dart';
 import 'package:takenote/views/createnote_page.dart';
+import 'package:takenote/views/settings_page.dart';
 import 'package:takenote/views/update_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -97,8 +98,14 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const TopWidget(
+                  TopWidget(
                     title: "All Notes",
+                    isHome: true,
+                    settingsOnPressed: () {
+                      context.goPage(const SettingsPage(), onAfter: (_) {
+                        _loadNotes();
+                      });
+                    },
                   ),
                   const SizedBox(height: 20),
                   SearchBox(

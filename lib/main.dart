@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:takenote/constants/style.dart';
 import 'package:takenote/views/home_page.dart';
 
 Future<void> main() async {
@@ -14,9 +15,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Takenote',
-      home: HomePage(),
+      theme: ThemeData(primaryColor: AppColors.primary),
+      home: const HomePage(),
     );
   }
 }

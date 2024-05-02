@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:takenote/constants/style.dart';
 
 extension D2SFormatter on DateTime {
   /// Returns the formatted date in the format `dd/mm/yyyy`
@@ -15,11 +16,13 @@ extension S2DFormatter on String {
   }
 }
 
+/// Returns the width and height of the screen
 extension DeviceInfo on BuildContext {
   double get width => MediaQuery.of(this).size.width;
   double get height => MediaQuery.of(this).size.height;
 }
 
+/// Navigate to another page with animation
 extension Navegate on BuildContext {
   void goPage(Widget widget, {Function(dynamic)? onAfter}) {
     Navigator.of(this, rootNavigator: true)
@@ -50,5 +53,21 @@ extension Navegate on BuildContext {
 
   void back() {
     Navigator.pop(this);
+  }
+}
+
+/// Show a snackbar message
+extension ScaffoldMessengerExtension on BuildContext {
+  void showSnackBar(String message) {
+    final snackBar = SnackBar(
+      content: Text(message, textAlign: TextAlign.center),
+      duration: const Duration(seconds: 2),
+      backgroundColor: AppColors.primary,
+      behavior: SnackBarBehavior.floating,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(20),
+      ),
+    );
+    ScaffoldMessenger.of(this).showSnackBar(snackBar);
   }
 }
