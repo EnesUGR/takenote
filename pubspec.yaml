@@ -13,7 +13,6 @@ dependencies:
   cupertino_icons: ^1.0.6
   flutter:
     sdk: flutter
-  flutter_native_splash: ^2.4.0
   flutter_slidable: ^3.1.0
   google_fonts: ^6.2.1
   shared_preferences: ^2.2.3
@@ -49,12 +48,3 @@ flutter:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
-
-flutter_native_splash:
-  color: "#fce5c3"
-  image: assets/icons/logo.png
-  android_gravity: fill
-  android_12: 
-    image: assets/icons/logo.png
-  android: true
-  ios: true
