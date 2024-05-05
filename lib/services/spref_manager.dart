@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:takenote/models/note_model.dart';
-import 'package:takenote/utils/extensions.dart';
 
 class NoteManagerSPref {
   static const String _key = "takenotes_notes";
@@ -43,47 +41,47 @@ class NoteManagerSPref {
   static List<NoteModel> _fakeNotes() {
     final List<NoteModel> notes = [
       NoteModel(
-        title: "Alışveriş Listesi",
+        title: "Shopping List",
         note:
-            "Market için alınacaklar listesi: Süt, yumurta, ekmek, peynir, domates, biber, patates, salatalık, kırmızı et, tavuk göğsü, pirinç, makarna, zeytinyağı, bulaşık deterjanı, tuvalet kağıdı.",
+            "Grocery shopping list: Milk, eggs, bread, cheese, tomatoes, peppers, potatoes, cucumber, red meat, chicken breast, rice, pasta, olive oil, dish detergent, toilet paper.",
         dateStamp: DateTime.now().toString(),
       ),
       NoteModel(
-        title: "Randevu Hatırlatması",
+        title: "Appointment Reminder",
         note:
-            "Hatırlatma: Yarın 10:00'da diş doktoru randevunuz var. Lütfen randevuya on dakika önce geliniz. İptal etmek isterseniz en az 24 saat önceden haber veriniz.",
-        dateStamp: DateTime.now().toString(),
-        pinned: true,
-      ),
-      NoteModel(
-        title: "Teşekkür Notu",
-        note:
-            "Merhaba, harika yardımınız için teşekkür ederim. Bugün benim için çok önemliydi ve senin desteğinle daha da anlamlı hale geldi. İyiki varsın!",
-        dateStamp: DateTime.now().toString(),
-      ),
-      NoteModel(
-        title: "Doğum Günü Mesajı",
-        note:
-            "Doğum günün kutlu olsun! Yeni yaşında sana mutluluk, sağlık, başarılar ve bolca güzellik getirmesini dilerim. Nice yıllara!",
-        dateStamp: DateTime.now().toString(),
-      ),
-      NoteModel(
-        title: "Eğitim Programı",
-        note:
-            "Bu haftanın eğitim programı: Pazartesi - Matematik, Salı - Fen Bilgisi, Çarşamba - Türkçe, Perşembe - Beden Eğitimi, Cuma - Müzik.",
+            "Reminder: You have a dentist appointment tomorrow at 10:00. Please arrive ten minutes early. If you need to cancel, please notify us at least 24 hours in advance.",
         dateStamp: DateTime.now().toString(),
         pinned: true,
       ),
       NoteModel(
-        title: "Yemek Tarifi",
+        title: "Thank You Note",
         note:
-            "Makarna sosu için gereken malzemeler: 4 adet domates, 1 adet soğan, 2 diş sarımsak, 3 yemek kaşığı zeytinyağı, tuz, karabiber, kurutulmuş fesleğen yaprağı. Detaylı tarif için aşağıdaki linki ziyaret edebilirsiniz.",
+            "Hello, thank you for your wonderful help. Today was very important to me, and with your support, it became even more meaningful. I'm glad you're here!",
         dateStamp: DateTime.now().toString(),
       ),
       NoteModel(
-        title: "Seyahat Planı",
+        title: "Birthday Message",
         note:
-            "İki hafta sürecek olan seyahat planımız şu şekildedir: Gidiş 10 Mayıs, Dönüş 24 Mayıs. Seyahat boyunca İstanbul, Antalya ve Kapadokya'yı ziyaret edeceğiz. Otel rezervasyonları yapılmıştır, detaylar mailde.",
+            "Happy birthday! Wishing you happiness, health, success, and plenty of beauty in your new year. Cheers to many more!",
+        dateStamp: DateTime.now().toString(),
+      ),
+      NoteModel(
+        title: "Educational Program",
+        note:
+            "This week's educational program: Monday - Mathematics, Tuesday - Science, Wednesday - Turkish, Thursday - Physical Education, Friday - Music.",
+        dateStamp: DateTime.now().toString(),
+        pinned: true,
+      ),
+      NoteModel(
+        title: "Recipe",
+        note:
+            "Ingredients for pasta sauce: 4 tomatoes, 1 onion, 2 cloves of garlic, 3 tablespoons of olive oil, salt, pepper, dried basil leaves. For a detailed recipe, visit the link below.",
+        dateStamp: DateTime.now().toString(),
+      ),
+      NoteModel(
+        title: "Travel Plan",
+        note:
+            "Our two-week travel plan is as follows: Departure on May 10th, Return on May 24th. During the trip, we will visit Istanbul, Antalya, and Cappadocia. Hotel reservations have been made; details are in the email.",
         dateStamp: DateTime.now().toString(),
       ),
     ];
