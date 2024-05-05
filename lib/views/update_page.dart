@@ -47,7 +47,7 @@ class _UpdatePageState extends State<UpdatePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TopWidget(
-                  title: "Update Note",
+                  title: context.l10n.update,
                   leading: Icons.arrow_back_ios_new,
                   onTap: () {
                     context.back();
@@ -69,7 +69,7 @@ class _UpdatePageState extends State<UpdatePage> {
                     fontWeight: FontWeight.bold,
                   ),
                   keyboardType: TextInputType.text,
-                  decoration: hintDec("Title"),
+                  decoration: hintDec(context.l10n.title),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
@@ -97,7 +97,7 @@ class _UpdatePageState extends State<UpdatePage> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
-                    decoration: hintDec("Write something..."),
+                    decoration: hintDec(context.l10n.writeSomething),
                   ),
                 ),
                 Row(
@@ -123,7 +123,7 @@ class _UpdatePageState extends State<UpdatePage> {
                         padding: const EdgeInsets.all(18),
                       ),
                       child: Text(
-                        'Save Note',
+                        context.l10n.save,
                         style: TextStyle(
                           color: AppColors.light,
                           fontFamily: GoogleFonts.manrope().fontFamily,

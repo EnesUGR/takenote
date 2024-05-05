@@ -37,7 +37,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 TopWidget(
-                  title: "Create Note",
+                  title: context.l10n.creteNote,
                   leading: Icons.arrow_back_ios_new,
                   onTap: () {
                     context.back();
@@ -63,7 +63,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                     fontWeight: FontWeight.bold,
                   ),
                   keyboardType: TextInputType.text,
-                  decoration: hintDec("Title"),
+                  decoration: hintDec(context.l10n.title),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 12.0),
@@ -101,7 +101,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
                     ),
-                    decoration: hintDec("Write something..."),
+                    decoration: hintDec(context.l10n.writeSomething),
                   ),
                 ),
                 AbsorbPointer(
@@ -131,7 +131,7 @@ class _CreateNotePageState extends State<CreateNotePage> {
                             padding: const EdgeInsets.all(18),
                           ),
                           child: Text(
-                            'Save Note',
+                            context.l10n.save,
                             style: TextStyle(
                               color: AppColors.light,
                               fontFamily: GoogleFonts.manrope().fontFamily,

@@ -1,0 +1,16 @@
+{
+    "@@locale": "tr",
+    "language": "Türkçe",
+    "allNotes": "Tüm Notlar",
+    "searchNotes": "Notları Ara",
+    "pinned": "Sabitlenmiş",    
+    "others": "Diğer ({length})",
+    "creteNote": "Not Oluştur",
+    "title": "Başlık",
+    "writeSomething": "Bir şeyler yazın...",
+    "save": "Kaydet",
+    "update": "Güncelle",
+    "settings": "Ayarlar",
+    "clearAll": "Tümünü Temizle",
+    "allNotesDeleted": "Tüm notlar silindi"
+}

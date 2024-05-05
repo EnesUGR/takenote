@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:takenote/constants/style.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 extension D2SFormatter on DateTime {
   /// Returns the formatted date in the format `dd/mm/yyyy`
@@ -70,4 +71,9 @@ extension ScaffoldMessengerExtension on BuildContext {
     );
     ScaffoldMessenger.of(this).showSnackBar(snackBar);
   }
+}
+
+/// Get the localized string 
+extension Language on BuildContext {
+  AppLocalizations get l10n => AppLocalizations.of(this)!;
 }

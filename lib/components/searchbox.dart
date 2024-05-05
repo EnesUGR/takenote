@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:takenote/constants/style.dart';
+import 'package:takenote/utils/extensions.dart';
 
 class SearchBox extends StatelessWidget {
   const SearchBox({
@@ -20,7 +21,7 @@ class SearchBox extends StatelessWidget {
       onTapOutside: (event) => FocusScope.of(context).unfocus(),
       keyboardType: TextInputType.text,
       decoration: InputDecoration(
-        hintText: "Search notes",
+        hintText: context.l10n.searchNotes,
         hintStyle: TextStyle(
           fontFamily: GoogleFonts.manrope().fontFamily,
           color: AppColors.body,

@@ -25,14 +25,14 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             children: [
               TopWidget(
-                title: "Settings",
+                title: context.l10n.settings,
                 leading: Icons.arrow_back_ios_rounded,
                 onTap: () => context.back(),
               ),
               const SizedBox(height: 20),
               ListTile(
                 title: Text(
-                  "Clear All Notes",
+                  context.l10n.clearAll,
                   style: TextStyle(
                       fontFamily: GoogleFonts.manrope().fontFamily,
                       fontSize: 18,
@@ -41,7 +41,8 @@ class _SettingsPageState extends State<SettingsPage> {
                 trailing: IconButton(
                   onPressed: () {
                     NoteManagerSPref.deleteAllNotes(permission: true).then(
-                      (value) => context.showSnackBar("All notes deleted"),
+                      (value) =>
+                          context.showSnackBar(context.l10n.allNotesDeleted),
                     );
                   },
                   icon: Icon(Icons.build_circle_rounded,

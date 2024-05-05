@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TopWidget(
-                    title: "All Notes",
+                    title: context.l10n.allNotes,
                     trailing: Icons.settings,
                     trailingOnPressed: () {
                       context.goPage(const SettingsPage(), onAfter: (_) {
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Pinned",
+                    context.l10n.pinned,
                     style: TextStyle(
                       fontFamily: GoogleFonts.manrope().fontFamily,
                       fontWeight: FontWeight.bold,
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 20),
                   Text(
-                    "Others (${_notes.length})",
+                    context.l10n.others(_notes.length),
                     style: TextStyle(
                       fontFamily: GoogleFonts.manrope().fontFamily,
                       fontWeight: FontWeight.bold,

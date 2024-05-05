@@ -1,0 +1,27 @@
+{
+    "@@locale": "en",
+    "language": "English",
+    "@language": {
+        "description": "The current language of the application."
+    },
+    "allNotes": "All notes",
+    "searchNotes": "Search notes",
+    "pinned": "Pinned",
+    "others": "Others ({length})",
+    "@others": {
+        "description": "The number of all notes.",
+        "placeholders": {
+            "length": {
+                "type": "int"
+            }
+        }
+    },
+    "creteNote": "Create note",
+    "title": "Title",
+    "writeSomething": "Write something...",
+    "save": "Save Note",
+    "update": "Update Note",
+    "settings": "Settings",
+    "clearAll": "Clear All Notes",
+    "allNotesDeleted": "All notes deleted"
+}
