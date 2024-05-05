@@ -10,7 +10,8 @@ class PinnedNoteWidget extends StatelessWidget {
   final void Function(BuildContext) removePinned;
   const PinnedNoteWidget({
     super.key,
-    required this.noteModel, required this.removePinned,
+    required this.noteModel,
+    required this.removePinned,
   });
 
   @override
@@ -22,6 +23,7 @@ class PinnedNoteWidget extends StatelessWidget {
         child: Slidable(
           direction: Axis.vertical,
           endActionPane: ActionPane(
+            extentRatio: 0.35,
             motion: const ScrollMotion(),
             children: [
               SlidableAction(

@@ -30,9 +30,9 @@ class _NoteWidgetState extends State<NoteWidget> {
         child: Slidable(
           startActionPane: ActionPane(
             motion: const ScrollMotion(),
+            extentRatio: 0.2,
             children: [
               SlidableAction(
-                flex: 1,
                 onPressed: widget.onPinned,
                 backgroundColor: Colors.yellowAccent.shade700,
                 foregroundColor: AppColors.light,
@@ -42,9 +42,9 @@ class _NoteWidgetState extends State<NoteWidget> {
           ),
           endActionPane: ActionPane(
             motion: const ScrollMotion(),
+            extentRatio: 0.2,
             children: [
               SlidableAction(
-                flex: 1,
                 onPressed: widget.onRemove,
                 backgroundColor: AppColors.primary,
                 foregroundColor: AppColors.light,
