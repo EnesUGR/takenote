@@ -33,7 +33,7 @@ class NoteManagerSPref {
 
     List<NoteModel> list =
         notes.map((nJson) => NoteModel.fromJson(jsonDecode(nJson))).toList();
-    list = _fakeNotes();
+    // list = _fakeNotes(); // For testing purposes
     return list;
   }
 
