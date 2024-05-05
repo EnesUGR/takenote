@@ -63,7 +63,7 @@ class PinnedNoteWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 SizedBox(
-                  height: 80,
+                  height: 65,
                   child: Text(
                     noteModel.note,
                     overflow: TextOverflow.fade,

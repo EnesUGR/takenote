@@ -168,6 +168,7 @@ class _HomePageState extends State<HomePage> {
                         physics: const AlwaysScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: _notes.length,
+                        reverse: true,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {

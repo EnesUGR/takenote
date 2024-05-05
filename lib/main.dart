@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Takenote',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(primaryColor: AppColors.primary),
       home: const HomePage(),
       supportedLocales: L10n.all,
