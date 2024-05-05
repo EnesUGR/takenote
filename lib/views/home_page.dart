@@ -100,8 +100,8 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   TopWidget(
                     title: "All Notes",
-                    isHome: true,
-                    settingsOnPressed: () {
+                    trailing: Icons.settings,
+                    trailingOnPressed: () {
                       context.goPage(const SettingsPage(), onAfter: (_) {
                         _loadNotes();
                       });

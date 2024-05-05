@@ -5,17 +5,15 @@ class TopWidget extends StatefulWidget {
   final String title;
   final void Function()? onTap;
   final IconData? leading;
-  final bool isHome;
-  // final IconData? iconRight;
-  final void Function()? settingsOnPressed;
+  final void Function()? trailingOnPressed;
+  final IconData? trailing;
   const TopWidget({
     super.key,
     required this.title,
     this.onTap,
     this.leading,
-    this.isHome = false,
-    this.settingsOnPressed,
-    // this.iconRight,
+    this.trailingOnPressed,
+    this.trailing,
   });
 
   @override
@@ -42,19 +40,11 @@ class _TopWidgetState extends State<TopWidget> {
             fontSize: 26,
           ),
         ),
-        // Padding(
-        //   padding: const EdgeInsets.only(left: 8, top: 3),
-        //   child: Icon(
-        //     widget.iconRight,
-        //     size: 25,
-        //   ),
-        // ),
         const Spacer(),
         Visibility(
-          visible: widget.isHome,
+          visible: widget.trailing != null,
           child: IconButton(
-              onPressed: widget.settingsOnPressed,
-              icon: const Icon(Icons.settings_rounded)),
+              onPressed: widget.trailingOnPressed, icon: Icon(widget.trailing)),
         ),
       ],
     );

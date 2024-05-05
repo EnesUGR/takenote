@@ -52,6 +52,12 @@ class _UpdatePageState extends State<UpdatePage> {
                   onTap: () {
                     context.back();
                   },
+                  trailing: Icons.delete,
+                  trailingOnPressed: () {
+                    NoteManagerSPref.removeNote(widget.note).whenComplete(() {
+                      context.back();
+                    });
+                  },
                 ),
                 const SizedBox(height: 30),
                 TextField(
