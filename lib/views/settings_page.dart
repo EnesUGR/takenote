@@ -38,13 +38,13 @@ class _SettingsPageState extends State<SettingsPage> {
                       fontSize: 18,
                       fontWeight: FontWeight.bold),
                 ),
-                trailing: TextButton(
+                trailing: IconButton(
                   onPressed: () {
                     NoteManagerSPref.deleteAllNotes(permission: true).then(
                       (value) => context.showSnackBar("All notes deleted"),
                     );
                   },
-                  child: Icon(Icons.build_circle_rounded,
+                  icon: Icon(Icons.build_circle_rounded,
                       color: AppColors.primary),
                 ),
               ),
